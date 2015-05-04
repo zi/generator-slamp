@@ -1,0 +1,5 @@
+node_modules
+vendor
+bower_components
+*.sublime-project
+*.sublime-workspace

@@ -2,6 +2,7 @@
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
+var mkdirp = require('mkdirp');
 
 module.exports = yeoman.generators.Base.extend({
     initializing: function () {
@@ -11,7 +12,8 @@ module.exports = yeoman.generators.Base.extend({
     prompting: {
         askForConfig: function () {
             var done = this.async(),
-                prompts;
+                prompts,
+                generator = this;
 
             // Have Yeoman greet the user.
             this.log(yosay(
@@ -22,8 +24,9 @@ module.exports = yeoman.generators.Base.extend({
                 {
                     name: 'projectName',
                     message: 'What\'s the name of your project?',
-                    default: 'SlampSite',
-                    store: true
+                    default: function () {
+                        return generator.config.get('projectName') || 'Slamp';
+                    }
                 },
                 {
                     name: 'slampdeskDir',
@@ -58,6 +61,10 @@ module.exports = yeoman.generators.Base.extend({
                             name: 'jQuery',
                             value: 'jquery',
                             checked: true
+                        },
+                        {
+                            name: 'Bootstrap',
+                            value: 'bootstrap'
                         },
                         {
                             name: 'Angular',
@@ -95,7 +102,7 @@ module.exports = yeoman.generators.Base.extend({
     },
 
     writing: {
-        app: function () {
+        tools: function () {
             this.fs.copyTpl(
                 this.templatePath('_package.json'),
                 this.destinationPath('package.json'),
@@ -106,6 +113,39 @@ module.exports = yeoman.generators.Base.extend({
                 this.destinationPath('bower.json'),
                 { projectName : this.projectName }
             );
+            this.fs.copy(
+                this.templatePath('Gruntfile.js'),
+                this.destinationPath('Gruntfile.js')
+            );
+        },
+        app: function () {
+            this.fs.copyTpl(
+                this.templatePath('_default.php'),
+                this.destinationPath('default.php'),
+                {
+                    projectName : this.projectName,
+                    classesDir: this.classesDir
+                }
+            );
+            this.fs.copy(
+                this.templatePath('_default.page.php'),
+                this.destinationPath('default.page.php')
+            );
+            this.fs.copy(
+                this.templatePath('css/style.css'),
+                this.destinationPath('css/style.css')
+            );
+            this.fs.copyTpl(
+                this.templatePath('classes/_Site.php'),
+                this.destinationPath('classes/' + this.projectName + 'Site.php'),
+                {
+                    projectName : this.projectName
+                }
+            );
+            mkdirp(this.destinationPath('include'));
+            mkdirp(this.destinationPath('templates'));
+            mkdirp(this.destinationPath('js'));
+            mkdirp(this.destinationPath('images'));
         },
 
         // projectfiles: function () {
@@ -125,5 +165,9 @@ module.exports = yeoman.generators.Base.extend({
         if (this.useTwig) {
             this.spawnCommand('composer', ['require', 'twig/twig']);
         }
+        this.npmInstall([
+            'grunt-contrib-watch',
+            'grunt-wiredep'
+        ], {'saveDev': true});
     }
 });

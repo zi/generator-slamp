@@ -17,7 +17,8 @@ module.exports = yeoman.generators.Base.extend({
 
     prompting: function () {
         var done = this.async(),
-            prompts;
+            prompts,
+            generator = this;
 
         // Have Yeoman greet the user.
         this.log(yosay(
@@ -39,8 +40,10 @@ module.exports = yeoman.generators.Base.extend({
                 type: 'input',
                 name: 'namespace',
                 message: 'Namespace of the new class:',
-                default: 'SlampSite\\Generated',
-                store: true
+                default: function () {
+                    return (generator.config.get('projectName') || 'Slamp') +
+                        '\\Generated';
+                }
             }
         ];
 
