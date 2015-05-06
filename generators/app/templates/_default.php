@@ -17,7 +17,7 @@ $mySite = new <%= projectName %>Site(
         'errorPage' => '404.php',
         'urlField' => 'myurl',
         'pageField' => 'page',
-        'menuClass' => false,
+        'menuClass' => '<%= projectName %>\Generated\Menu',
         'menuPosition' => Site::MENU_ALL,
         'menuFilterEnabled' => true,
         'siteDir' => dirname(__FILE__)

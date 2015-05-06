@@ -1,7 +1,8 @@
+/*global window */
 (function () {
 
     'use strict';
 
-    /* javascript code.. */
+    window.alert('default');
 
 }());
