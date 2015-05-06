@@ -7,10 +7,11 @@ use SlampDesk\Site\Site;
 require_once('slampdesk/classes/Site/SiteAutoloader.php');
 SiteAutoloader::init('<%= classesDir %>', '<%= projectName %>');
 
+$language = Site::parseLanguageUrl('language');
 $mySite = new <%= projectName %>Site(
     array(
         'templatesDir' => 'templates',
-        'language' => 'ITA',
+        'language' => $language ? $language : Site::LANG_IT,
         'debug' => true,
         'defaultId' => 1,
         'defaultPage' => 'static.php',
