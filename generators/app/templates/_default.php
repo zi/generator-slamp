@@ -9,43 +9,52 @@ SiteAutoloader::init('<%= classesDir %>', '<%= projectName %>');
 
 $mySite = new <%= projectName %>Site(
     array(
+        'templatesDir' => 'templates',
+        'language' => 'ITA',
+        'debug' => true,
+        'defaultId' => 1,
+        'defaultPage' => 'static.php',
+        'errorPage' => '404.php',
+        'urlField' => 'myurl',
+        'pageField' => 'page',
         'menuClass' => false,
-        'menuPosition' => Site::MENU_ALL
+        'menuPosition' => Site::MENU_ALL,
+        'menuFilterEnabled' => true,
+        'siteDir' => dirname(__FILE__)
     )
 );
-$mainMenu = $mySite->getMainMenu();
+$mySite->setTitle('<%= projectName %>');
+$mySite->setMetaKeywords('');
+$mySite->setMetaDescription('');
 
-$page = new \stdClass();
-$page->title = '<%= projectName %>';
-$page->metaTitle = '';
-$page->metaKeywords = '';
-$page->metaDescription = '';
-$page->jsFiles = array();
-$page->cssFiles = array('css/style.css');
+$mySite->addCssFile('css/style.css', 'css/min/style.min.css');
+$mySite->addJsFile('js/default.js', 'js/min/default.min.js');
+
+$mainMenu = $mySite->getMainMenu();
 
 if ($mainMenu) {
     $pageRequest = isset($_GET['idm']) ? intval($_GET['idm']) :
-            (isset($_GET['myurl']) ? $_GET['myurl'] : 1);
+            (isset($_GET['myurl']) ? $_GET['myurl'] : null);
 
     $activeMenuItem = $mySite->getActiveMenuItem($pageRequest);
     $activeMenuItem->active = true;
 
-    $page->title = "{$activeMenuItem->voce} - {$page->title}";
+    $mySite->setTitle("{$activeMenuItem->voce} - {$mySite->getTitle()}");
     if (!empty($activeMenuItem->meta_title)) {
-        $page->metaTitle = $activeMenuItem->meta_title;
+        $mySite->setMetaTitle($activeMenuItem->meta_title);
     }
     if (!empty($activeMenuItem->meta_keywords)) {
-        $page->metaKeywords = $activeMenuItem->meta_keywords;
+        $mySite->setMetaKeywords($activeMenuItem->meta_keywords);
     }
     if (!empty($activeMenuItem->meta_description)) {
-        $page->metaDescription = $activeMenuItem->meta_description;
+        $mySite->setMetaDescription($activeMenuItem->meta_description);
     }
 
     $pageToInclude = $mySite->getPageToInclude($pageRequest);
     $pathToInclude = "include/$pageToInclude";
     if ($pathToInclude && file_exists($pathToInclude)) {
         require_once($pathToInclude);
-        $page->template = 'templates/' . str_replace('.php', '', $pageToInclude) . '.page.php';
+        $mySite->setTemplate(str_replace('.php', '.page.php', $pageToInclude));
     }
 }
 

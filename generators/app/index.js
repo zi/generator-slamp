@@ -69,6 +69,14 @@ module.exports = yeoman.generators.Base.extend({
                         {
                             name: 'Angular',
                             value: 'angular'
+                        },
+                        {
+                            name: 'React',
+                            value: 'react'
+                        },
+                        {
+                            name: 'Modernizr',
+                            value: 'modernizr'
                         }
                     ],
                     store: true
@@ -146,18 +154,7 @@ module.exports = yeoman.generators.Base.extend({
             mkdirp(this.destinationPath('templates'));
             mkdirp(this.destinationPath('js'));
             mkdirp(this.destinationPath('images'));
-        },
-
-        // projectfiles: function () {
-        //     this.fs.copy(
-        //         this.templatePath('editorconfig'),
-        //         this.destinationPath('.editorconfig')
-        //     );
-        //     this.fs.copy(
-        //         this.templatePath('jshintrc'),
-        //         this.destinationPath('.jshintrc')
-        //     );
-        // }
+        }
     },
 
     install: function () {
@@ -167,7 +164,9 @@ module.exports = yeoman.generators.Base.extend({
         }
         this.npmInstall([
             'grunt-contrib-watch',
-            'grunt-wiredep'
+            'grunt-wiredep',
+            'grunt-contrib-uglify',
+            'grunt-contrib-cssmin'
         ], {'saveDev': true});
     }
 });

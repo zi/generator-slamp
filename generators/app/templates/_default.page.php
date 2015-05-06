@@ -1,33 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <title><?= $mySite->getTitle() ?></title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-    <meta name="robots" content="INDEX, FOLLOW" />
-    <meta name="description" content="<?= $page->metaDescription ?>" />
-    <meta name="keywords" content="<?= $page->metaKeywords ?>" />
+    <meta name="robots" content="<?= $mySite->getMetaRobots() ?>" />
+    <meta name="description" content="<?= $mySite->getMetaDescription() ?>" />
+    <meta name="keywords" content="<?= $mySite->getMetaKeywords() ?>" />
 
     <!-- bower:css -->
     <!-- endbower -->
 
 <?php
-foreach ($page->cssFiles as $style) {
+foreach ($mySite->getCssFiles() as $file) {
+    if ($mySite->debug() || file_exists($file)) {
 ?>
-    <link href="<?= $style ?>" rel="stylesheet" type="text/css" media="screen" />
+    <link href="<?= $file ?>" rel="stylesheet" type="text/css" media="screen" />
 <?php
+    }
 }
 ?>
-    
-    <title><?= $page->title ?></title>
 </head>
 <body>
     <div id="header"></div>
     <div id="content">
 
 <?php
-if (isset($page->template) && file_exists($page->template)) {
-    require_once($page->template);
+if ($mySite->getTemplate() && file_exists($mySite->getTemplate())) {
+    require_once($mySite->getTemplate());
 }
 ?>
 
@@ -38,10 +39,12 @@ if (isset($page->template) && file_exists($page->template)) {
     <!-- endbower -->
 
 <?php
-foreach ($page->jsFiles as $script) {
+foreach ($mySite->getJsFiles() as $file) {
+    if ($mySite->debug() || file_exists($file)) {
 ?>
-    <script type="text/javascript" src="<?= $script ?>"></script>
+    <script type="text/javascript" src="<?= $file ?>"></script>
 <?php
+    }
 }
 ?>
 </body>
