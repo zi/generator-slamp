@@ -143,6 +143,10 @@ module.exports = yeoman.generators.Base.extend({
                 this.templatePath('css/style.css'),
                 this.destinationPath('css/style.css')
             );
+            this.fs.copy(
+                this.templatePath('js/default.js'),
+                this.destinationPath('js/default.js')
+            );
             this.fs.copyTpl(
                 this.templatePath('classes/_Site.php'),
                 this.destinationPath('classes/' + this.projectName + 'Site.php'),
@@ -150,9 +154,11 @@ module.exports = yeoman.generators.Base.extend({
                     projectName : this.projectName
                 }
             );
+            mkdirp(this.destinationPath('classes'));
             mkdirp(this.destinationPath('include'));
             mkdirp(this.destinationPath('templates'));
             mkdirp(this.destinationPath('js'));
+            mkdirp(this.destinationPath('css'));
             mkdirp(this.destinationPath('images'));
         }
     },
