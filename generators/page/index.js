@@ -39,7 +39,7 @@ module.exports = yeoman.generators.Base.extend({
     writing: function () {
         this.fs.copyTpl(
             this.templatePath('_page.php'),
-            this.destinationPath('include/' + this.page + '.php'),
+            this.destinationPath('controllers/' + this.page + '.php'),
             { page : this.page }
         );
         this.fs.copyTpl(

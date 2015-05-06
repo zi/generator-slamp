@@ -155,7 +155,7 @@ module.exports = yeoman.generators.Base.extend({
                 }
             );
             mkdirp(this.destinationPath('classes'));
-            mkdirp(this.destinationPath('include'));
+            mkdirp(this.destinationPath('controllers'));
             mkdirp(this.destinationPath('templates'));
             mkdirp(this.destinationPath('js'));
             mkdirp(this.destinationPath('css'));
