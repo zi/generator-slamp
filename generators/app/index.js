@@ -6,6 +6,14 @@ var mkdirp = require('mkdirp');
 
 var writeGruntConfig = function () {
 
+    this.gruntfile.loadNpmTasks([
+        'grunt-wiredep',
+        'grunt-contrib-watch',
+        'grunt-contrib-uglify',
+        'grunt-contrib-cssmin',
+        'grunt-newer'
+    ]);
+
     this.gruntfile.insertConfig("wiredep", JSON.stringify({
         dev: {
             src: ['default.page.php']
@@ -69,19 +77,14 @@ var writeGruntConfig = function () {
         },
         js: {
             files: ['js/*.js'],
-            tasks: ['uglify']
+            tasks: ['newer:uglify']
         },
         css: {
             files: ['css/*.css'],
-            tasks: ['cssmin']
+            tasks: ['newer:cssmin']
         }
     }));
-    this.gruntfile.registerTask('default', ['wiredep:prod', 'uglify', 'cssmin']);
-
-    this.gruntfile.loadNpmTasks('grunt-wiredep');
-    this.gruntfile.loadNpmTasks('grunt-contrib-watch');
-    this.gruntfile.loadNpmTasks('grunt-contrib-uglify');
-    this.gruntfile.loadNpmTasks('grunt-contrib-cssmin');
+    this.gruntfile.registerTask('default', ['wiredep:prod', 'newer:uglify', 'newer:cssmin']);
 };
 
 module.exports = yeoman.generators.Base.extend({
@@ -251,7 +254,8 @@ module.exports = yeoman.generators.Base.extend({
             'grunt-contrib-watch',
             'grunt-wiredep',
             'grunt-contrib-uglify',
-            'grunt-contrib-cssmin'
+            'grunt-contrib-cssmin',
+            'grunt-newer'
         ], {'saveDev': true});
     }
 });
