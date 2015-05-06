@@ -4,7 +4,88 @@ var chalk = require('chalk');
 var yosay = require('yosay');
 var mkdirp = require('mkdirp');
 
+var writeGruntConfig = function () {
+
+    this.gruntfile.insertConfig("wiredep", JSON.stringify({
+        dev: {
+            src: ['default.page.php']
+        },
+        prod: {
+            src: ['default.page.php'],
+            overrides: {
+                jquery: {
+                    main: 'dist/jquery.min.js'
+                },
+                bootstrap: {
+                    main: [
+                        'dist/css/bootstrap.min.css',
+                        'dist/js/bootstrap.min.js'
+                    ]
+                },
+                angular: {
+                    main: 'angular.min.js'
+                },
+                react: {
+                    main: 'react.min.js'
+                }
+            }
+        }
+    }));
+    this.gruntfile.insertConfig("uglify", JSON.stringify({
+        dist: {
+            options: {
+                sourceMap: true,
+                compress: {
+                    drop_console: true
+                }
+            },
+            files: [{
+                expand: true,
+                cwd: 'js',
+                src: ['*.js', '!*.min.js'],
+                dest: 'js/min',
+                ext: '.min.js'
+            }]
+        }
+    }));
+    this.gruntfile.insertConfig("cssmin", JSON.stringify({
+        dist: {
+            options: {
+                sourceMap: true
+            },
+            files: [{
+                expand: true,
+                cwd: 'css',
+                src: ['*.css', '!*.min.css'],
+                dest: 'css/min',
+                ext: '.min.css'
+            }]
+        }
+    }));
+    this.gruntfile.insertConfig("watch", JSON.stringify({
+        bower: {
+            files: ['bower_components/*'],
+            tasks: ['wiredep']
+        },
+        js: {
+            files: ['js/*.js'],
+            tasks: ['uglify']
+        },
+        css: {
+            files: ['css/*.css'],
+            tasks: ['cssmin']
+        }
+    }));
+    this.gruntfile.registerTask('default', ['wiredep:prod', 'uglify', 'cssmin']);
+
+    this.gruntfile.loadNpmTasks('grunt-wiredep');
+    this.gruntfile.loadNpmTasks('grunt-contrib-watch');
+    this.gruntfile.loadNpmTasks('grunt-contrib-uglify');
+    this.gruntfile.loadNpmTasks('grunt-contrib-cssmin');
+};
+
 module.exports = yeoman.generators.Base.extend({
+
     initializing: function () {
         this.pkg = require('../../package.json');
     },
@@ -93,7 +174,7 @@ module.exports = yeoman.generators.Base.extend({
                     type: 'confirm',
                     name: 'useTwig',
                     message: 'Would you like to use Twig in this project?',
-                    default: true,
+                    default: false,
                     store: true
                 }
             ], function (props) {
@@ -121,10 +202,8 @@ module.exports = yeoman.generators.Base.extend({
                 this.destinationPath('bower.json'),
                 { projectName : this.projectName }
             );
-            this.fs.copy(
-                this.templatePath('Gruntfile.js'),
-                this.destinationPath('Gruntfile.js')
-            );
+
+            writeGruntConfig.call(this);
         },
         app: function () {
             this.fs.copyTpl(
