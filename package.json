@@ -20,6 +20,7 @@
     "yeoman-generator"
   ],
   "dependencies": {
+    "camelize": "^1.0.0",
     "chalk": "^1.0.0",
     "grunt": "^0.4.5",
     "mkdirp": "^0.5.0",

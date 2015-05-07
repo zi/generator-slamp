@@ -3,6 +3,7 @@ var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var mkdirp = require('mkdirp');
+var camelize = require('camelize');
 
 var writeGruntConfig = function () {
 
@@ -99,6 +100,12 @@ var writeGruntConfig = function () {
     this.gruntfile.registerTask('bower', ['wiredepCopy:dev', 'wiredep:dev']);
 };
 
+var getProjectName = function () {
+    var name = camelize(this.determineAppname());
+    name = name.charAt(0).toUpperCase() + name.slice(1);
+    return name;
+};
+
 module.exports = yeoman.generators.Base.extend({
 
     initializing: function () {
@@ -121,9 +128,7 @@ module.exports = yeoman.generators.Base.extend({
                 {
                     name: 'projectName',
                     message: 'What\'s the name of your project?',
-                    default: function () {
-                        return generator.config.get('projectName') || 'Slamp';
-                    }
+                    default: projectName
                 },
                 {
                     name: 'siteDir',
