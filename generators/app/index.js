@@ -225,6 +225,10 @@ module.exports = yeoman.generators.Base.extend({
                 this.destinationPath('bower.json'),
                 { projectName : this.projectName }
             );
+            this.fs.copy(
+                this.templatePath('gitignore'),
+                this.destinationPath('.gitignore')
+            );
 
             writeGruntConfig.call(this);
         },

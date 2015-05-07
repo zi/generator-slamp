@@ -3,3 +3,5 @@ vendor
 bower_components
 *.sublime-project
 *.sublime-workspace
+.DS_Store
+sftp-config.json
