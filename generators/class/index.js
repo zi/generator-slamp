@@ -8,11 +8,12 @@ module.exports = yeoman.generators.Base.extend({
 
     initializing: function () {
         this.slampdeskDir = this.config.get('slampdeskDir');
-        this.classesDir = this.config.get('classesDir');
-        if (!this.slampdeskDir || !this.classesDir) {
+        this.siteDir = this.config.get('siteDir');
+        if (!this.slampdeskDir || !this.siteDir) {
             this.log("You have to run 'yo slamp' first!");
             process.exit(1);
         }
+        this.classesDir = this.siteDir + '/classes';
     },
 
     prompting: function () {

@@ -11,6 +11,7 @@ module.exports = yeoman.generators.Base.extend({
             this.log("You have to run 'yo slamp' first!");
             process.exit(1);
         }
+        this.siteDir = this.config.get('siteDir');
     },
 
     prompting: function () {
@@ -39,17 +40,17 @@ module.exports = yeoman.generators.Base.extend({
     writing: function () {
         this.fs.copyTpl(
             this.templatePath('_page.php'),
-            this.destinationPath('controllers/' + this.page + '.php'),
+            this.destinationPath(this.siteDir + '/controllers/' + this.page + '.php'),
             { page : this.page }
         );
         this.fs.copyTpl(
             this.templatePath('_page.template.php'),
-            this.destinationPath('templates/' + this.page + '.page.php'),
+            this.destinationPath(this.siteDir + '/templates/' + this.page + '.page.php'),
             { page : this.page }
         );
         this.fs.copyTpl(
             this.templatePath('_page.js'),
-            this.destinationPath('js/' + this.page + '.js'),
+            this.destinationPath(this.siteDir + '/js/' + this.page + '.js'),
             { page : this.page }
         );
     }

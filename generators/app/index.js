@@ -8,18 +8,29 @@ var writeGruntConfig = function () {
 
     this.gruntfile.loadNpmTasks([
         'grunt-wiredep',
+        'grunt-wiredep-copy',
         'grunt-contrib-watch',
         'grunt-contrib-uglify',
         'grunt-contrib-cssmin',
         'grunt-newer'
     ]);
 
+    this.gruntfile.insertConfig("wiredepCopy", JSON.stringify({
+        dev: {
+            options: {
+                src: this.destinationRoot(),
+                dest: this.destinationPath(this.siteDir)
+            }
+        }
+    }));
     this.gruntfile.insertConfig("wiredep", JSON.stringify({
         dev: {
-            src: ['default.page.php']
+            src: [this.siteDir + '/default.page.php'],
+            ignorePath: '../'
         },
         prod: {
-            src: ['default.page.php'],
+            src: [this.siteDir + '/default.page.php'],
+            ignorePath: '../',
             overrides: {
                 jquery: {
                     main: 'dist/jquery.min.js'
@@ -49,9 +60,9 @@ var writeGruntConfig = function () {
             },
             files: [{
                 expand: true,
-                cwd: 'js',
+                cwd: this.siteDir + '/js',
                 src: ['*.js', '!*.min.js'],
-                dest: 'js/min',
+                dest: this.siteDir + '/js/min',
                 ext: '.min.js'
             }]
         }
@@ -63,9 +74,9 @@ var writeGruntConfig = function () {
             },
             files: [{
                 expand: true,
-                cwd: 'css',
+                cwd: this.siteDir + '/css',
                 src: ['*.css', '!*.min.css'],
-                dest: 'css/min',
+                dest: this.siteDir + '/css/min',
                 ext: '.min.css'
             }]
         }
@@ -73,18 +84,19 @@ var writeGruntConfig = function () {
     this.gruntfile.insertConfig("watch", JSON.stringify({
         bower: {
             files: ['bower_components/*'],
-            tasks: ['wiredep']
+            tasks: ['bower']
         },
         js: {
-            files: ['js/*.js'],
+            files: [this.siteDir + '/js/*.js'],
             tasks: ['newer:uglify']
         },
         css: {
-            files: ['css/*.css'],
+            files: [this.siteDir + '/css/*.css'],
             tasks: ['newer:cssmin']
         }
     }));
-    this.gruntfile.registerTask('default', ['wiredep:prod', 'newer:uglify', 'newer:cssmin']);
+    this.gruntfile.registerTask('default', ['bower']);
+    this.gruntfile.registerTask('bower', ['wiredepCopy:dev', 'wiredep:dev']);
 };
 
 module.exports = yeoman.generators.Base.extend({
@@ -97,8 +109,9 @@ module.exports = yeoman.generators.Base.extend({
         askForConfig: function () {
             var done = this.async(),
                 prompts,
-                generator = this;
+                projectName = getProjectName.call(this);
 
+            this.log(projectName);
             // Have Yeoman greet the user.
             this.log(yosay(
                 'Welcome to the flawless ' + chalk.red('Slamp') + ' generator!'
@@ -113,23 +126,25 @@ module.exports = yeoman.generators.Base.extend({
                     }
                 },
                 {
-                    name: 'slampdeskDir',
-                    message: 'SlampDesk directory:',
-                    default: 'slampdesk',
+                    name: 'siteDir',
+                    message: 'Site directory:',
+                    default: 'www',
                     store: true
                 },
                 {
-                    name: 'classesDir',
-                    message: 'Classes directory:',
-                    default: 'classes',
+                    name: 'slampdeskDir',
+                    message: 'SlampDesk directory (relative to site):',
+                    default: function (answers) {
+                        return answers.siteDir + '/slampdesk';
+                    },
                     store: true
                 }
             ];
 
             this.prompt(prompts, function (props) {
                 this.projectName = props.projectName;
+                this.siteDir = props.siteDir;
                 this.slampdeskDir = props.slampdeskDir;
-                this.classesDir = props.classesDir;
                 done();
             }.bind(this));
         },
@@ -189,8 +204,8 @@ module.exports = yeoman.generators.Base.extend({
 
     configuring: function () {
         this.config.set('projectName', this.projectName);
+        this.config.set('siteDir', this.siteDir);
         this.config.set('slampdeskDir', this.slampdeskDir);
-        this.config.set('classesDir', this.classesDir);
     },
 
     writing: {
@@ -209,9 +224,10 @@ module.exports = yeoman.generators.Base.extend({
             writeGruntConfig.call(this);
         },
         app: function () {
+
             this.fs.copyTpl(
                 this.templatePath('_default.php'),
-                this.destinationPath('default.php'),
+                this.destinationPath(this.siteDir + '/default.php'),
                 {
                     projectName : this.projectName,
                     classesDir: this.classesDir
@@ -219,29 +235,29 @@ module.exports = yeoman.generators.Base.extend({
             );
             this.fs.copy(
                 this.templatePath('_default.page.php'),
-                this.destinationPath('default.page.php')
+                this.destinationPath(this.siteDir + '/default.page.php')
             );
             this.fs.copy(
                 this.templatePath('css/style.css'),
-                this.destinationPath('css/style.css')
+                this.destinationPath(this.siteDir + '/css/style.css')
             );
             this.fs.copy(
                 this.templatePath('js/default.js'),
-                this.destinationPath('js/default.js')
+                this.destinationPath(this.siteDir + '/js/default.js')
             );
             this.fs.copyTpl(
                 this.templatePath('classes/_Site.php'),
-                this.destinationPath('classes/' + this.projectName + 'Site.php'),
+                this.destinationPath(this.siteDir + '/classes/' + this.projectName + 'Site.php'),
                 {
                     projectName : this.projectName
                 }
             );
-            mkdirp(this.destinationPath('classes'));
-            mkdirp(this.destinationPath('controllers'));
-            mkdirp(this.destinationPath('templates'));
-            mkdirp(this.destinationPath('js'));
-            mkdirp(this.destinationPath('css'));
-            mkdirp(this.destinationPath('images'));
+            mkdirp(this.destinationPath(this.siteDir + '/classes'));
+            mkdirp(this.destinationPath(this.siteDir + '/controllers'));
+            mkdirp(this.destinationPath(this.siteDir + '/templates'));
+            mkdirp(this.destinationPath(this.siteDir + '/js'));
+            mkdirp(this.destinationPath(this.siteDir + '/css'));
+            mkdirp(this.destinationPath(this.siteDir + '/images'));
         }
     },
 
@@ -253,6 +269,7 @@ module.exports = yeoman.generators.Base.extend({
         this.npmInstall([
             'grunt-contrib-watch',
             'grunt-wiredep',
+            'grunt-wiredep-copy',
             'grunt-contrib-uglify',
             'grunt-contrib-cssmin',
             'grunt-newer'
