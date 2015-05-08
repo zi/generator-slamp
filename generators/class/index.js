@@ -13,7 +13,6 @@ module.exports = yeoman.generators.Base.extend({
             this.log("You have to run 'yo slamp' first!");
             process.exit(1);
         }
-        this.classesDir = this.siteDir + '/classes';
     },
 
     prompting: function () {

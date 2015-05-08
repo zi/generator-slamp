@@ -138,7 +138,7 @@ module.exports = yeoman.generators.Base.extend({
                 },
                 {
                     name: 'slampdeskDir',
-                    message: 'SlampDesk directory (relative to site):',
+                    message: 'SlampDesk directory:',
                     default: function (answers) {
                         return answers.siteDir + '/slampdesk';
                     },
@@ -237,10 +237,7 @@ module.exports = yeoman.generators.Base.extend({
             this.fs.copyTpl(
                 this.templatePath('_default.php'),
                 this.destinationPath(this.siteDir + '/default.php'),
-                {
-                    projectName : this.projectName,
-                    classesDir: this.classesDir
-                }
+                {projectName : this.projectName}
             );
             this.fs.copy(
                 this.templatePath('_default.page.php'),
@@ -257,9 +254,7 @@ module.exports = yeoman.generators.Base.extend({
             this.fs.copyTpl(
                 this.templatePath('classes/_Site.php'),
                 this.destinationPath(this.siteDir + '/classes/' + this.projectName + 'Site.php'),
-                {
-                    projectName : this.projectName
-                }
+                {projectName : this.projectName}
             );
             mkdirp(this.destinationPath(this.siteDir + '/classes'));
             mkdirp(this.destinationPath(this.siteDir + '/controllers'));

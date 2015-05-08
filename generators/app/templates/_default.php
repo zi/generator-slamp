@@ -5,7 +5,7 @@ use SlampDesk\Site\SiteAutoloader;
 use SlampDesk\Site\Site;
 
 require_once('slampdesk/classes/Site/SiteAutoloader.php');
-SiteAutoloader::init('<%= classesDir %>', '<%= projectName %>');
+SiteAutoloader::init('classes', '<%= projectName %>');
 
 $language = Site::parseLanguageUrl('language');
 $mySite = new <%= projectName %>Site(
