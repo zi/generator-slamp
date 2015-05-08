@@ -13,7 +13,6 @@ $mySite = new <%= projectName %>Site(
         'templatesDir' => 'templates',
         'language' => $language ? $language : Site::LANG_IT,
         'debug' => true,
-        'defaultId' => 1,
         'defaultPage' => 'static.php',
         'errorPage' => '404.php',
         'urlField' => 'myurl',
@@ -39,16 +38,19 @@ if ($mainMenu) {
 
     $activeMenuItem = $mySite->getActiveMenuItem($pageRequest);
     $activeMenuItem->active = true;
-
-    $mySite->setTitle("{$activeMenuItem->voce} - {$mySite->getTitle()}");
-    if (!empty($activeMenuItem->meta_title)) {
-        $mySite->setMetaTitle($activeMenuItem->meta_title);
-    }
-    if (!empty($activeMenuItem->meta_keywords)) {
-        $mySite->setMetaKeywords($activeMenuItem->meta_keywords);
-    }
-    if (!empty($activeMenuItem->meta_description)) {
-        $mySite->setMetaDescription($activeMenuItem->meta_description);
+    
+    if ($activeMenuItem) {
+        $activeMenuItem->active = true;
+        $mySite->setTitle("{$activeMenuItem->voce} - {$mySite->getTitle()}");
+        if (!empty($activeMenuItem->meta_title)) {
+            $mySite->setMetaTitle($activeMenuItem->meta_title);
+        }
+        if (!empty($activeMenuItem->meta_keywords)) {
+            $mySite->setMetaKeywords($activeMenuItem->meta_keywords);
+        }
+        if (!empty($activeMenuItem->meta_description)) {
+            $mySite->setMetaDescription($activeMenuItem->meta_description);
+        }
     }
 
     $pageToInclude = $mySite->getPageToInclude($pageRequest);
