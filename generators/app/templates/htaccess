@@ -1,0 +1,21 @@
+<IfModule mod_rewrite.c>
+    Options +FollowSymLinks
+    RewriteEngine On
+
+    DirectoryIndex default.php
+
+    RewriteBase /
+
+    RedirectMatch 301 ^/slampdesk/?$ /slampdesk/index.php
+
+    RewriteRule ^(it|en|es)/([^/]+)/?$ /default.php?myurl=$2&language=$1 [L]
+    RewriteRule ^(it|en|es)/?$ /default.php?language=$1 [L]
+
+    RewriteRule ^([\w-]+)/?$ /default.php?myurl=$1 [L]
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    ErrorDocument 404 /404.php
+
+</IfModule>

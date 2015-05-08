@@ -14,7 +14,7 @@ $mySite = new <%= projectName %>Site(
         'language' => $language ? $language : Site::LANG_IT,
         'debug' => true,
         'defaultPage' => 'static.php',
-        'errorPage' => '404.php',
+        'errorPage' => '404',
         'urlField' => 'myurl',
         'pageField' => 'page',
         'menuClass' => '<%= projectName %>\Generated\Menu',

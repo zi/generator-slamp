@@ -244,6 +244,14 @@ module.exports = yeoman.generators.Base.extend({
                 this.destinationPath(this.siteDir + '/default.page.php')
             );
             this.fs.copy(
+                this.templatePath('htaccess'),
+                this.destinationPath(this.siteDir + '/.htaccess')
+            );
+            this.fs.copy(
+                this.templatePath('_404.php'),
+                this.destinationPath(this.siteDir + '/404.php')
+            );
+            this.fs.copy(
                 this.templatePath('css/style.css'),
                 this.destinationPath(this.siteDir + '/css/style.css')
             );
