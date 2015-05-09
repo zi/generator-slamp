@@ -9,6 +9,7 @@ module.exports = yeoman.generators.Base.extend({
         this.composeWith('slamp:config');
         this.composeWith('slamp:libraries');
         this.composeWith('slamp:gruntfile');
+        this.composeWith('slamp:page', {args: ['static']});
     },
 
     writing: {

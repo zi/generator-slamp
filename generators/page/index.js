@@ -1,10 +1,13 @@
 'use strict';
 var yeoman = require('yeoman-generator');
-var chalk = require('chalk');
-var yosay = require('yosay');
 var shell = require('shelljs');
 
 module.exports = yeoman.generators.Base.extend({
+
+    constructor: function () {
+        yeoman.generators.Base.apply(this, arguments);
+        this.argument('page', {type: 'string', required: false});
+    },
 
     initializing: function () {
         if (!this.config.get('siteDir')) {
@@ -16,23 +19,24 @@ module.exports = yeoman.generators.Base.extend({
 
     prompting: function () {
         var done = this.async(),
+            generator = this,
             prompts;
-
-        // Have Yeoman greet the user.
-        this.log(yosay(
-            'Welcome to the flawless ' + chalk.red('Slamp') + ' generator!'
-        ));
 
         prompts = [
             {
                 type: 'input',
                 name: 'page',
-                message: 'Name of the page (without extension):'
+                message: 'Name of the page (without extension):',
+                when: function () {
+                    return !generator.page;
+                }
             }
         ];
 
         this.prompt(prompts, function (props) {
-            this.page = props.page;
+            if (props.page) {
+                this.page = props.page;
+            }
             done();
         }.bind(this));
     },
