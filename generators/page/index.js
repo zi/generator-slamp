@@ -7,7 +7,7 @@ var shell = require('shelljs');
 module.exports = yeoman.generators.Base.extend({
 
     initializing: function () {
-        if (!this.config.get('projectName')) {
+        if (!this.config.get('siteDir')) {
             this.log("You have to run 'yo slamp' first!");
             process.exit(1);
         }
