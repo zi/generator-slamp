@@ -59,7 +59,7 @@ module.exports = yeoman.generators.Base.extend({
                         ' --action create' +
                         ' --name ' + this.props.className +
                         ' --table ' + this.props.tableName +
-                        ' --classesDir "' + this.classesDir + '"' +
+                        ' --classesDir "' + this.siteDir + '/classes"' +
                         ' --namespace "' + this.props.namespace + '"');
         }
     }
