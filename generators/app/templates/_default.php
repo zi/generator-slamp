@@ -37,7 +37,6 @@ if ($mainMenu) {
             (isset($_GET['myurl']) ? $_GET['myurl'] : null);
 
     $activeMenuItem = $mySite->getActiveMenuItem($pageRequest);
-    $activeMenuItem->active = true;
     
     if ($activeMenuItem) {
         $activeMenuItem->active = true;
