@@ -4,6 +4,7 @@
     "disallowMultipleSpaces": true,
     "disallowMultipleVarDecl": null,
     "requireDollarBeforejQueryAssignment": true,
+    "requireSpaceBeforeObjectValues": true,
     "requireSpaceBeforeKeywords": [
         "else",
         "while",
