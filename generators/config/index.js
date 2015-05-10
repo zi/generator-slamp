@@ -36,13 +36,13 @@ module.exports = yeoman.generators.Base.extend({
         },
         {
           name: 'siteDir',
-          message: 'Site directory:',
+          message: 'Site\'s directory:',
           default: 'www',
           store: true
         },
         {
           name: 'slampdeskDir',
-          message: 'SlampDesk directory:',
+          message: 'SlampDesk\'s directory:',
           default: function(answers) {
             return answers.siteDir + '/slampdesk';
           },
