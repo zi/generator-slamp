@@ -1,0 +1,12 @@
+{
+    "preset": "google",
+    "disallowSpaceAfterObjectKeys": true,
+    "disallowMultipleSpaces": true,
+    "disallowMultipleVarDecl": null,
+    "requireDollarBeforejQueryAssignment": true,
+    "requireSpaceBeforeKeywords": [
+        "else",
+        "while",
+        "catch"
+    ]
+}

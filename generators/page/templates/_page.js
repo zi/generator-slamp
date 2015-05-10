@@ -1,8 +1,8 @@
 /*global window */
-(function () {
+(function() {
 
-    'use strict';
+  'use strict';
 
-    window.alert('<%= page %>');
+  window.alert('<%= page %>');
 
 }());

@@ -27,6 +27,14 @@ module.exports = yeoman.generators.Base.extend({
                 this.templatePath('gitignore'),
                 this.destinationPath('.gitignore')
             );
+            this.fs.copy(
+                this.templatePath('jshintrc'),
+                this.destinationPath('.jshintrc')
+            );
+            this.fs.copy(
+                this.templatePath('jscsrc'),
+                this.destinationPath('.jscsrc')
+            );
 
             this.fs.copyTpl(
                 this.templatePath('_default.php'),
