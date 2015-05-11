@@ -13,6 +13,7 @@ $mySite = new <%= projectName %>Site(
         'templatesDir' => 'templates',
         'language' => $language ? $language : Site::LANG_IT,
         'debug' => true,
+        'startPage' => false,
         'defaultPage' => 'static.php',
         'errorPage' => '404',
         'urlField' => 'myurl',
