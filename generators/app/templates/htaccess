@@ -8,6 +8,11 @@
 
     RedirectMatch 301 ^/slampdesk/?$ /slampdesk/index.php
 
+    RewriteRule ^(it|en|es)/bower_components/(.+)$ /bower_components/$2 [L]
+    RewriteRule ^(it|en|es)/js/(.+)$ /js/$2 [L]
+    RewriteRule ^(it|en|es)/css/(.+)$ /css/$2 [L]
+    RewriteRule ^(it|en|es)/images/(.+)$ /images/$2 [L]
+
     RewriteRule ^(it|en|es)/([^/]+)/?$ /default.php?myurl=$2&language=$1 [L]
     RewriteRule ^(it|en|es)/?$ /default.php?language=$1 [L]
 
