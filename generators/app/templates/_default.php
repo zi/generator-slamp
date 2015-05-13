@@ -7,7 +7,7 @@ use SlampDesk\Site\Site;
 require_once('slampdesk/classes/Site/SiteAutoloader.php');
 SiteAutoloader::init('classes', '<%= projectName %>');
 
-$language = Site::parseLanguageUrl('language');
+$language = isset($_GET['language']) ? $_GET['language'] : false;
 $mySite = new <%= projectName %>Site(
     array(
         'templatesDir' => 'templates',
@@ -28,8 +28,9 @@ $mySite->setTitle('<%= projectName %>');
 $mySite->setMetaKeywords('');
 $mySite->setMetaDescription('');
 
-$mySite->addCssFile('css/style.css', 'css/min/style.min.css');
-$mySite->addJsFile('js/default.js', 'js/min/default.min.js');
+$assets = $mySite->getAssetManager();
+$assets->addCssFile('css/style.css', 'css/min/style.min.css');
+$assets->addJsFile('js/default.js', 'js/min/default.min.js');
 
 $mainMenu = $mySite->getMainMenu();
 
