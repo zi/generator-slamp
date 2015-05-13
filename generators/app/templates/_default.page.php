@@ -13,7 +13,7 @@
     <!-- endbower -->
 
 <?php
-foreach ($mySite->getCssFiles() as $file) {
+foreach ($assets->getCssFiles() as $file) {
     if ($mySite->debug() || file_exists($file)) {
 ?>
     <link href="<?= $file ?>" rel="stylesheet" type="text/css" media="screen" />
@@ -39,7 +39,7 @@ if ($mySite->getTemplate() && file_exists($mySite->getTemplate())) {
     <!-- endbower -->
 
 <?php
-foreach ($mySite->getJsFiles() as $file) {
+foreach ($assets->getJsFiles() as $file) {
     if ($mySite->debug() || file_exists($file)) {
 ?>
     <script type="text/javascript" src="<?= $file ?>"></script>
