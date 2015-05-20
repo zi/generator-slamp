@@ -58,7 +58,7 @@ if ($mainMenu) {
     $pathToInclude = "controllers/$pageToInclude";
     if ($pathToInclude && file_exists($pathToInclude)) {
         require_once($pathToInclude);
-        $mySite->setTemplate(str_replace('.php', '.page.php', $pageToInclude));
+        $template = str_replace('.php', '.page.php', $pageToInclude);
     }
 }
 

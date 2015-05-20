@@ -27,7 +27,7 @@ foreach ($assets->getCssFiles() as $file) {
     <div id="content">
 
 <?php
-if ($mySite->getTemplate() && file_exists($mySite->getTemplate())) {
+if (isset($template) && file_exists($template)) {
     require_once($mySite->getTemplate());
 }
 ?>
