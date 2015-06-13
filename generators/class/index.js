@@ -29,8 +29,7 @@ module.exports = yeoman.generators.Base.extend({
     this.slampdeskDir = this.config.get('slampdeskDir');
     this.siteDir = this.config.get('siteDir');
     if (!this.slampdeskDir || !this.siteDir) {
-      this.log('You have to run \'yo slamp\' first!');
-      process.exit(1);
+      this.composeWith('slamp:config');
     }
   },
 
@@ -86,6 +85,8 @@ module.exports = yeoman.generators.Base.extend({
 
   writing: {
     app: function() {
+      this.slampdeskDir = this.config.get('slampdeskDir');
+      this.siteDir = this.config.get('siteDir');
       shell.exec('php ' + this.slampdeskDir + '/slamp-cli.php' +
         ' --action create' +
         ' --name ' + this.classname +

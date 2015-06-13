@@ -7,8 +7,8 @@ module.exports = yeoman.generators.Base.extend({
   initializing: function() {
     this.pkg = require('../../package.json');
     this.composeWith('slamp:config');
-    this.composeWith('slamp:libraries');
-    this.composeWith('slamp:gruntfile');
+    this.composeWith('slamp:libraries', {args: ['--withConfig']});
+    this.composeWith('slamp:gruntfile', {args: ['--withConfig']});
     this.composeWith('slamp:page', {args: ['static', '--withConfig']});
   },
 

@@ -4,6 +4,21 @@ var yeoman = require('yeoman-generator');
 
 module.exports = yeoman.generators.Base.extend({
 
+  constructor: function() {
+    yeoman.generators.Base.apply(this, arguments);
+    this.option('withConfig', {
+      desc: 'compose with config',
+      type: Boolean,
+      default: false
+    });
+  },
+
+  initializing: function() {
+    if (!this.config.get('siteDir') && !this.options.withConfig) {
+      this.composeWith('slamp:config');
+    }
+  },
+
   writing: {
     gruntfile: function() {
 

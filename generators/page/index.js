@@ -1,4 +1,4 @@
-'use strict';
+  'use strict';
 var yeoman = require('yeoman-generator');
 
 module.exports = yeoman.generators.Base.extend({
@@ -14,7 +14,9 @@ module.exports = yeoman.generators.Base.extend({
   },
 
   initializing: function() {
-    this.siteDir = this.config.get('siteDir');
+    if (!this.config.get('siteDir') && !this.options.withConfig) {
+      this.composeWith('slamp:config');
+    }
   },
 
   prompting: function() {
@@ -23,15 +25,6 @@ module.exports = yeoman.generators.Base.extend({
       prompts;
 
     prompts = [
-      {
-        name: 'siteDir',
-        message: 'Site\'s directory:',
-        default: 'www',
-        store: true,
-        when: function() {
-          return !generator.options.withConfig && !generator.siteDir;
-        }
-      },
       {
         type: 'input',
         name: 'page',
@@ -46,25 +39,13 @@ module.exports = yeoman.generators.Base.extend({
       if (answers.page) {
         this.page = answers.page;
       }
-      if (answers.siteDir) {
-        this.siteDir = answers.siteDir;
-      }
       done();
     }.bind(this));
   },
 
-  configuring: function() {
-    if (this.siteDir) {
-      this.config.set('siteDir', this.siteDir);
-    }
-  },
-
   writing: function() {
 
-    if (!this.siteDir && !(this.siteDir = this.config.get('siteDir'))) {
-      this.log('Site\'s dir configuration is missing');
-      process.exit(1);
-    }
+    this.siteDir = this.config.get('siteDir');
 
     this.fs.copyTpl(
       this.templatePath('_page.php'),
