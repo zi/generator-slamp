@@ -1,14 +1,14 @@
 {
   "name": "generator-slamp",
-  "version": "0.0.0",
-  "description": "Yeoman generator",
+  "version": "0.0.2",
+  "description": "Yeoman generator for Slamp",
   "license": "MIT",
   "main": "app/index.js",
-  "repository": "someuser/generator-slamp",
+  "repository": "git@github.com:zi/generator-slamp.git",
   "author": {
     "name": "Marco Ziliani",
     "email": "zilianimarco@gmail.com",
-    "url": "https://github.com/someuser"
+    "url": "https://github.com/zi"
   },
   "scripts": {
     "test": "mocha"
