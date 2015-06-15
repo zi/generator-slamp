@@ -14,8 +14,7 @@ $mySite = new <%= projectName %>Site(
         'language' => $language ? $language : Site::LANG_IT,
         'debug' => true,
         'startPage' => false,
-        'defaultPage' => 'static.php',
-        'errorPage' => '404',
+        'errorPage' => '404.php',
         'urlField' => 'myurl',
         'pageField' => 'page',
         'menuClass' => '<%= projectName %>\Generated\Menu',
@@ -59,6 +58,10 @@ if ($mainMenu) {
     if ($pathToInclude && file_exists($pathToInclude)) {
         require_once($pathToInclude);
         $template = str_replace('.php', '.page.php', $pageToInclude);
+    }
+
+    if ($pageToInclude === $mySite->getErrorPage()) {
+        header("HTTP/1.0 404 Not Found");
     }
 }
 

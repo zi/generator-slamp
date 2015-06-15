@@ -21,7 +21,7 @@
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
 
-    ErrorDocument 404 /404.php
+    ErrorDocument 404 /default.php?myurl=404
 
 </IfModule>
 
