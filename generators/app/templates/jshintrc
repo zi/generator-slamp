@@ -14,7 +14,7 @@
     "nonew"         : true,    // true: Prohibit use of constructors for side-effects (without assignment)
     "plusplus"      : false,    // true: Prohibit use of `++` & `--`
     "undef"         : true,     // true: Require all non-global variables to be declared (prevents global leaks)
-    "unused"        : "strict",     // Unused variables:
+    "unused"        : true,     // Unused variables:
                                 //   true     : all variables, last function parameter
                                 //   "vars"   : all variables only
                                 //   "strict" : all variables, all function parameters
