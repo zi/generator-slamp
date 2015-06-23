@@ -113,8 +113,9 @@ module.exports = yeoman.generators.Base.extend({
           tasks: ['newer:cssmin']
         }
       }));
-      this.gruntfile.registerTask('default', ['bower']);
+      this.gruntfile.registerTask('default', ['watch']);
       this.gruntfile.registerTask('bower', ['wiredepCopy:dev', 'wiredep:dev']);
+      this.gruntfile.registerTask('minify', ['newer:uglify', 'newer:cssmin']);
     }
   },
 
