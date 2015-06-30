@@ -22,6 +22,24 @@ module.exports = yeoman.generators.Base.extend({
   writing: {
     gruntfile: function() {
 
+      var overrides = {
+        jquery: {
+          main: 'dist/jquery.min.js'
+        },
+        bootstrap: {
+          main: [
+              'dist/css/bootstrap.min.css',
+              'dist/js/bootstrap.min.js'
+          ]
+        },
+        angular: {
+          main: 'angular.min.js'
+        },
+        react: {
+          main: 'react.min.js'
+        }
+      };
+
       this.siteDir = this.config.get('siteDir');
 
       this.gruntfile.loadNpmTasks([
@@ -36,8 +54,17 @@ module.exports = yeoman.generators.Base.extend({
       this.gruntfile.insertConfig('wiredepCopy', JSON.stringify({
         dev: {
           options: {
-            src: this.destinationRoot(),
-            dest: this.destinationPath(this.siteDir)
+            src: '.',
+            dest: this.siteDir
+          }
+        },
+        prod: {
+          options: {
+            src: '.',
+            dest: this.siteDir,
+            wiredep: {
+              overrides: overrides
+            }
           }
         }
       }));
@@ -49,23 +76,7 @@ module.exports = yeoman.generators.Base.extend({
         prod: {
           src: [this.siteDir + '/default.page.php'],
           ignorePath: '../',
-          overrides: {
-            jquery: {
-              main: 'dist/jquery.min.js'
-            },
-            bootstrap: {
-              main: [
-                  'dist/css/bootstrap.min.css',
-                  'dist/js/bootstrap.min.js'
-              ]
-            },
-            angular: {
-              main: 'angular.min.js'
-            },
-            react: {
-              main: 'react.min.js'
-            }
-          }
+          overrides: overrides
         }
       }));
       this.gruntfile.insertConfig('uglify', JSON.stringify({
@@ -113,9 +124,12 @@ module.exports = yeoman.generators.Base.extend({
           tasks: ['newer:cssmin']
         }
       }));
-      this.gruntfile.registerTask('default', ['watch']);
-      this.gruntfile.registerTask('bower', ['wiredepCopy:dev', 'wiredep:dev']);
       this.gruntfile.registerTask('minify', ['newer:uglify', 'newer:cssmin']);
+      this.gruntfile.registerTask('bower', [
+        'wiredepCopy:prod',
+        'wiredep:prod'
+      ]);
+      this.gruntfile.registerTask('default', ['bower', 'minify', 'watch']);
     }
   },
 
