@@ -3,6 +3,7 @@ namespace <%= projectName %>;
 
 use SlampDesk\Site\SiteAutoloader;
 use SlampDesk\Site\Site;
+use SlampDesk\Common\Language;
 
 require_once('slampdesk/classes/Site/SiteAutoloader.php');
 SiteAutoloader::init('classes', '<%= projectName %>');
@@ -11,7 +12,7 @@ $language = isset($_GET['language']) ? $_GET['language'] : false;
 $mySite = new <%= projectName %>Site(
     array(
         'templatesDir' => 'templates',
-        'language' => $language ? $language : Site::LANG_IT,
+        'language' => $language ? $language : Language::LANG_IT,
         'debug' => true,
         'startPage' => false,
         'errorPage' => '404.php',
