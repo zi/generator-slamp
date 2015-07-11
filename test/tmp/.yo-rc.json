@@ -1,0 +1,7 @@
+{
+  "generator-slamp": {
+    "projectName": "Tmp",
+    "siteDir": "www",
+    "slampdeskDir": "www/slampdesk"
+  }
+}
