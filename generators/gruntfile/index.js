@@ -19,8 +19,14 @@ module.exports = yeoman.generators.Base.extend({
     }
   },
 
+  check: function() {
+    return this.config.get('buildSystem') === 'grunt';
+  },
+
   writing: {
     gruntfile: function() {
+
+      if (!this.check()) { return; }
 
       this.siteDir = this.config.get('siteDir');
 
@@ -119,13 +125,17 @@ module.exports = yeoman.generators.Base.extend({
   },
 
   install: function() {
+
+    if (!this.check()) { return; }
+
     this.npmInstall([
-        'grunt-contrib-watch',
-        'grunt-wiredep',
-        'grunt-wiredep-copy',
-        'grunt-contrib-uglify',
-        'grunt-contrib-cssmin',
-        'grunt-newer'
+      'grunt',
+      'grunt-contrib-watch',
+      'grunt-wiredep',
+      'grunt-wiredep-copy',
+      'grunt-contrib-uglify',
+      'grunt-contrib-cssmin',
+      'grunt-newer'
     ], {'saveDev': true});
   }
 });

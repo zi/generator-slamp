@@ -9,6 +9,7 @@ module.exports = yeoman.generators.Base.extend({
     this.composeWith('slamp:config');
     this.composeWith('slamp:libraries', {args: ['--withConfig']});
     this.composeWith('slamp:gruntfile', {args: ['--withConfig']});
+    this.composeWith('slamp:gulpfile', {args: ['--withConfig']});
     this.composeWith('slamp:page', {args: ['static', '--withConfig']});
   },
 

@@ -47,6 +47,23 @@ module.exports = yeoman.generators.Base.extend({
             return answers.siteDir + '/slampdesk';
           },
           store: true
+        },
+        {
+          type: 'list',
+          name: 'buildSystem',
+          message: 'Which build system would you like to use?',
+          default: 0,
+          choices: [
+            {
+              name: 'gulp',
+              value: 'gulp'
+            },
+            {
+              name: 'grunt',
+              value: 'grunt'
+            }
+          ],
+          store: true
         }
       ];
 
@@ -54,6 +71,7 @@ module.exports = yeoman.generators.Base.extend({
         this.projectName = props.projectName;
         this.siteDir = props.siteDir;
         this.slampdeskDir = props.slampdeskDir;
+        this.buildSystem = props.buildSystem;
         done();
       }.bind(this));
     }
@@ -63,5 +81,6 @@ module.exports = yeoman.generators.Base.extend({
     this.config.set('projectName', this.projectName);
     this.config.set('siteDir', this.siteDir);
     this.config.set('slampdeskDir', this.slampdeskDir);
+    this.config.set('buildSystem', this.buildSystem);
   }
 });
