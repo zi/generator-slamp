@@ -63,7 +63,7 @@ gulp.task('wiredep:prod', function() {
 });
 
 gulp.task('wiredepCopy', ['clean:bower'], function() {
-  return gulp.src(config.srcDir + '/default.php')
+  return gulp.src(config.srcDir + '/default.page.php')
     .pipe($.assets({cwd: '../', js: 'js', css: 'css'}))
     .pipe($.rename(function(path) {
       path.dirname = config.srcDir + '/' + path.dirname;
