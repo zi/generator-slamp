@@ -2,12 +2,11 @@
 'use strict';
 
 var gulp = require('gulp');
-var $ = require('gulp-load-plugins')({camelize: true});
 var config = require('../config');
+var rimraf = require('rimraf');
 
-gulp.task('clean:bower', function() {
-  return gulp.src(config.srcDir + '/bower_components')
-    .pipe($.clean());
+gulp.task('clean:bower', function(cb) {
+  rimraf(config.srcDir + '/bower_components', cb);
 });
 
 gulp.task('clean', ['clean:bower']);

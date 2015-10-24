@@ -63,8 +63,8 @@ module.exports = yeoman.generators.Base.extend({
       'gulp-cssnano',
       'gulp-imagemin',
       'gulp-assets',
-      'gulp-clean',
       'gulp-notify',
+      'rimraf',
       'require-dir'
     ], {'saveDev': true});
   }
