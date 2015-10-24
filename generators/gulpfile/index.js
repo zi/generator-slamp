@@ -34,6 +34,11 @@ module.exports = yeoman.generators.Base.extend({
         this.templatePath('_gulpfile.js'),
         this.destinationPath('gulpfile.js')
       );
+
+      this.fs.copy(
+        this.templatePath('_gulp'),
+        this.destinationPath('gulp')
+      );
     }
   },
 
@@ -59,7 +64,8 @@ module.exports = yeoman.generators.Base.extend({
       'gulp-imagemin',
       'gulp-assets',
       'gulp-clean',
-      'gulp-notify'
+      'gulp-notify',
+      'require-dir'
     ], {'saveDev': true});
   }
 });
