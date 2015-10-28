@@ -54,11 +54,11 @@ if ($mainMenu) {
         }
     }
 
-    $pageToInclude = $mySite->getPageToInclude($pageRequest);
-    $pathToInclude = "controllers/$pageToInclude";
-    if ($pathToInclude && file_exists($pathToInclude)) {
-        require_once($pathToInclude);
-        $template = str_replace('.php', '.page.php', $pageToInclude);
+    
+    $controller = $mySite->getController($pageRequest);
+    $template = $mySite->getTemplate($pageRequest);
+    if ($controller && file_exists($controller)) {
+        require_once($controller);
     }
 
     if ($pageToInclude === $mySite->getErrorPage()) {

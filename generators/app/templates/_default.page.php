@@ -30,7 +30,7 @@ foreach ($assets->getCssFiles() as $file) {
 
 <?php
 if (isset($template) && file_exists($template)) {
-    require_once($mySite->getTemplate());
+    require_once($template);
 }
 ?>
 
