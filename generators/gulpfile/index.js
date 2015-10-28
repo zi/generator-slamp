@@ -49,7 +49,6 @@ module.exports = yeoman.generators.Base.extend({
     this.npmInstall([
       'gulp',
       'gulp-babel',
-      'wiredep',
       'gulp-load-plugins',
       'gulp-newer',
       'gulp-debug',
@@ -64,8 +63,14 @@ module.exports = yeoman.generators.Base.extend({
       'gulp-imagemin',
       'gulp-assets',
       'gulp-notify',
-      'rimraf',
-      'require-dir'
+      'gulp-concat',
+      'gulp-inject',
+      'gulp-less',
+      'gulp-rev',
+      'gulp-rimraf',
+      'require-dir',
+      'lazypipe',
+      'main-bower-files'
     ], {'saveDev': true});
   }
 });

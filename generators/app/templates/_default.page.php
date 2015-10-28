@@ -9,10 +9,8 @@
     <meta name="description" content="<?= $mySite->getMetaDescription() ?>" />
     <meta name="keywords" content="<?= $mySite->getMetaKeywords() ?>" />
 
-    <!-- build:css -->
-        <!-- bower:css -->
-        <!-- endbower -->
-    <!-- endbuild -->
+    <!-- vendor:css -->
+    <!-- endinject -->
 
 <?php
 foreach ($assets->getCssFiles() as $file) {
@@ -37,10 +35,8 @@ if (isset($template) && file_exists($template)) {
     </div>
     <div id="footer"></div>
 
-    <!-- build:js -->
-        <!-- bower:js -->
-        <!-- endbower -->
-    <!-- endbuild -->
+    <!-- vendor:js -->
+    <!-- endinject -->
 
 <?php
 foreach ($assets->getJsFiles() as $file) {
