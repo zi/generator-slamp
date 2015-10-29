@@ -11,10 +11,11 @@ gulp.task('bower:clean', function() {
   var jsFiles = config.jsDir + '/vendor-*.min.js';
   var cssFiles = config.cssDir + '/vendor-*.min.css';
   return gulp.src([jsFiles, cssFiles], {read: false})
+    .pipe($.debug({title: 'cleaning'}))
     .pipe($.rimraf());
 });
 
-gulp.task('bower:bundles', function() {
+gulp.task('bower:bundles', ['bower:clean'], function() {
 
   var concatJs = lazypipe()
     .pipe($.sourcemaps.init)
@@ -45,8 +46,8 @@ gulp.task('bower:bundles', function() {
 
 gulp.task('bower', ['bower:bundles'], function() {
   var sources = gulp.src(
-      [config.jsDir + '/vendor-*.js', config.cssDir + '/vendor-*.css'],
-      {read: false}
+      ['js/vendor-*.js', 'css/vendor-*.css'],
+      {read: false, cwd: config.srcDir}
     )
     .pipe($.debug({title: 'files to inject'}));
 
