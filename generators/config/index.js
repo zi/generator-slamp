@@ -37,7 +37,7 @@ module.exports = yeoman.generators.Base.extend({
         {
           name: 'siteDir',
           message: 'Site\'s directory:',
-          default: 'www',
+          default: 'html',
           store: true
         },
         {
