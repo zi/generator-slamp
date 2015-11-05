@@ -1,6 +1,6 @@
 {
   "name": "generator-slamp",
-  "version": "0.0.8.1",
+  "version": "0.0.10",
   "description": "Yeoman generator for Slamp",
   "license": "MIT",
   "main": "app/index.js",

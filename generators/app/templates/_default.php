@@ -29,8 +29,8 @@ $mySite->setMetaKeywords('');
 $mySite->setMetaDescription('');
 
 $assets = $mySite->getAssetManager();
-$assets->addCssFile('css/style.css', 'css/min/style.min.css');
-$assets->addJsFile('js/default.js', 'js/min/default.min.js');
+$assets->addCssFile('css/style.css', 'css/style.min.css');
+$assets->addJsFile('js/default.js', 'js/default.min.js');
 
 $mainMenu = $mySite->getMainMenu();
 
