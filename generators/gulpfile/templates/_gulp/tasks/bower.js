@@ -23,7 +23,7 @@ gulp.task('bower:bundles', ['bower:clean'], function() {
     .pipe($.uglify, {compress: {'drop_console': true}})
     .pipe($.rev)
     .pipe($.rename, {suffix: '.min'})
-    .pipe($.sourcemaps.write)
+    .pipe($.sourcemaps.write, '.')
     .pipe(gulp.dest, config.jsDir);
 
   var concatCss = lazypipe()
@@ -34,7 +34,7 @@ gulp.task('bower:bundles', ['bower:clean'], function() {
     .pipe($.minifyCss, {compatibility: 'ie8'})
     .pipe($.rev)
     .pipe($.rename, {suffix: '.min'})
-    .pipe($.sourcemaps.write)
+    .pipe($.sourcemaps.write, '.')
     .pipe(gulp.dest, config.cssDir);
 
   return gulp.src(mainBowerFiles())
