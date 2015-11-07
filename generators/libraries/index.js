@@ -10,7 +10,7 @@ module.exports = yeoman.generators.Base.extend({
         {
           type: 'checkbox',
           name: 'jsLibraries',
-          message: 'Which javascript libraries would you like to use?',
+          message: 'Choose your javascript libraries:',
           choices: [
             {
               name: 'jQuery',
@@ -47,7 +47,7 @@ module.exports = yeoman.generators.Base.extend({
         {
           type: 'confirm',
           name: 'useTwig',
-          message: 'Would you like to use Twig in this project?',
+          message: 'Are you using Twig in this project?',
           default: false,
           store: true
         }

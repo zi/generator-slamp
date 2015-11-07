@@ -51,7 +51,7 @@ module.exports = yeoman.generators.Base.extend({
         {
           type: 'list',
           name: 'buildSystem',
-          message: 'Which build system would you like to use?',
+          message: 'Choose your build system:',
           default: 0,
           choices: [
             {
