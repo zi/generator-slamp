@@ -1,13 +1,19 @@
 /*jshint node:true */
 'use strict';
 
-var srcDir = './html';
-var jsDir = srcDir + '/js';
-var jsFiles = [jsDir + '/*.js', '!' + jsDir + '/*.min.js'];
-var babelFiles = [jsDir + '/*.jsx'];
-var cssDir = srcDir + '/css';
-var cssFiles = [cssDir + '/*.css', '!' + cssDir + '/*.min.css'];
-var imageFiles = ['raw_images/**/*'];
+const srcDir = './html';
+const jsDir = srcDir + '/js';
+const jsFiles = [jsDir + '/*.js', '!' + jsDir + '/*.min.js'];
+const babelFiles = [jsDir + '/*.jsx'];
+const cssDir = srcDir + '/css';
+const cssFiles = [cssDir + '/*.css', '!' + cssDir + '/*.min.css'];
+const imageFiles = ['raw_images/**/*'];
+const bowerJsonPath = './bower.json';
+
+const getBowerConfig = () => {
+  const fs = require('fs');
+  return JSON.parse(fs.readFileSync(bowerJsonPath, 'utf8'));
+};
 
 module.exports = {
   srcDir: srcDir,
@@ -20,9 +26,11 @@ module.exports = {
     images: imageFiles
   },
   bower: {
-    dist: srcDir + '/bower_components',
+    baseDir: srcDir,
+    destinationDir: srcDir + '/bower_components',
     bundleName: 'vendor',
-    excludeFromBundle: []
-  },
-  bowerPath: './bower.json'
+    excludeFromBundle: [],
+    getBowerConfig: getBowerConfig,
+    addRootSlash: false
+  }
 };
