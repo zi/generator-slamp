@@ -68,6 +68,7 @@ module.exports = yeoman.generators.Base.extend({
       'gulp-less',
       'gulp-rev',
       'gulp-rimraf',
+      'gulp-plumber',
       'rimraf',
       'require-dir',
       'lazypipe',
