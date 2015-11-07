@@ -1,52 +1,77 @@
 /*jshint node:true */
 'use strict';
 
-var gulp = require('gulp');
-var $ = require('gulp-load-plugins')({camelize: true});
-var config = require('../config');
-var mainBowerFiles = require('main-bower-files');
-var lazypipe = require('lazypipe');
+const gulp = require('gulp');
+const $ = require('gulp-load-plugins')({camelize: true});
+const config = require('../config');
+const mainBowerFiles = require('main-bower-files');
+const lazypipe = require('lazypipe');
+const rimraf = require('rimraf');
 
-gulp.task('bower:clean', function() {
-  var jsFiles = config.jsDir + '/vendor-*.min.js';
-  var cssFiles = config.cssDir + '/vendor-*.min.css';
-  return gulp.src([jsFiles, cssFiles], {read: false})
-    .pipe($.debug({title: 'cleaning'}))
-    .pipe($.rimraf());
+const outputDir = config.bower.dist;
+const bundleName = config.bower.bundleName;
+
+gulp.task('bower:clean', function(cb) {
+  rimraf(outputDir, cb);
 });
 
 gulp.task('bower:bundles', ['bower:clean'], function() {
 
-  var concatJs = lazypipe()
+  const concatJs = lazypipe()
     .pipe($.sourcemaps.init)
-    .pipe($.concat, 'vendor.js')
+    .pipe($.concat, bundleName + '.js')
     .pipe($.uglify, {compress: {'drop_console': true}})
     .pipe($.rev)
     .pipe($.rename, {suffix: '.min'})
     .pipe($.sourcemaps.write, '.')
-    .pipe(gulp.dest, config.jsDir);
+    .pipe(gulp.dest, outputDir);
 
-  var concatCss = lazypipe()
+  const concatCss = lazypipe()
     .pipe($.sourcemaps.init)
     .pipe($.less)
-    .pipe($.concat, 'vendor.css')
+    .pipe($.concat, bundleName + '.css')
     .pipe($.autoprefixer, {browsers: ['last 2 versions']})
     .pipe($.minifyCss, {compatibility: 'ie8'})
     .pipe($.rev)
     .pipe($.rename, {suffix: '.min'})
     .pipe($.sourcemaps.write, '.')
-    .pipe(gulp.dest, config.cssDir);
+    .pipe(gulp.dest, outputDir);
 
-  return gulp.src(mainBowerFiles())
+  let options = {
+    overrides: {}
+  };
+  for (let pkg of config.bower.excludeFromBundle) {
+    options.overrides[pkg] = {ignore: true};
+  }
+
+  return gulp.src(mainBowerFiles(options))
       .pipe($.debug({title: 'src files'}))
       .pipe($.if('*.js', concatJs()))
       .pipe($.if(['*.css', '*.less'], concatCss()))
       .pipe($.debug({title: 'result files'}));
 });
 
-gulp.task('bower', ['bower:bundles'], function() {
-  var sources = gulp.src(
-      ['js/vendor-*.js', 'css/vendor-*.css'],
+gulp.task('bower:others', ['bower:clean'], function() {
+  const options = {
+    overrides: {}
+  };
+  const fs = require('fs');
+  const json = JSON.parse(fs.readFileSync(config.bowerPath, 'utf8'));
+  for (let pkg in json.dependencies) {
+    if (config.bower.excludeFromBundle.indexOf(pkg) === -1) {
+      options.overrides[pkg] = {ignore: true};
+    }
+  }
+
+  return gulp.src(mainBowerFiles(options))
+    .pipe($.debug({title: 'other files'}))
+    .pipe(gulp.dest(outputDir));
+});
+
+gulp.task('bower', ['bower:bundles', 'bower:others'], function() {
+  const dist = outputDir.replace(config.srcDir + '/', '');
+  const sources = gulp.src(
+      [dist + bundleName + '-*.js', dist + bundleName + '-*.css'],
       {read: false, cwd: config.srcDir}
     )
     .pipe($.debug({title: 'files to inject'}));

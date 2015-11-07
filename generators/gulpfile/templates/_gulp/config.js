@@ -18,5 +18,11 @@ module.exports = {
     babel: babelFiles,
     css: cssFiles,
     images: imageFiles
-  }
+  },
+  bower: {
+    dist: srcDir + '/bower_components',
+    bundleName: 'vendor',
+    excludeFromBundle: []
+  },
+  bowerPath: './bower.json'
 };
